@@ -4,8 +4,6 @@ import { Input } from 'react-bootstrap'
 export default class SearchBar extends Component {
   constructor() {
     super()
-    this.state = { query: '' }
-    this.handleChange = this.handleChange.bind(this)
   }
 
   render() {
@@ -13,15 +11,11 @@ export default class SearchBar extends Component {
       <Input
         type="text"
         placeholder="Search YouTube…"
-        value={ this.state.query }
+        value={ this.props.term }
         ref="searchBar"
-        onChange={ this.handleChange }
+        onChange={ this.props.handleSearchTermChange }
         standalone
         />
     );
-  }
-
-  handleChange(e) {
-    this.setState({ query: e.target.value })
   }
 }

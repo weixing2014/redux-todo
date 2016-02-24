@@ -12,19 +12,34 @@ export default class App extends Component {
     super(props)
     this.state = {
       videos: [],
+      term: '',
     }
+  }
 
-    YTSearch({key: API_KEY, term: 'Yao Ming'}, function(videos) {
+  componentDidMount() {
+    this.fetchVideos()
+  }
+
+  fetchVideos() {
+    YTSearch({key: API_KEY, term: this.state.term}, function(videos) {
       this.setState({
         videos
       })
     }.bind(this))
   }
 
+  handleSearchTermChange(e) {
+    this.setState({
+      term: e.target.value,
+    })
+    this.fetchVideos()
+  }
+
   render() {
     return (
       <div className={styles.searchBarContainer} style={{padding: '10px'}}>
-        <SearchBar />
+        <SearchBar handleSearchTermChange={this.handleSearchTermChange.bind(this)} term={this.props.term}/>
+        <VideoDetail video={this.state.videos[0]} />
         <VideoList videos={this.state.videos}/>
       </div>
     );

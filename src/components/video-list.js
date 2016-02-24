@@ -9,7 +9,7 @@ export default class VideoList extends Component {
         {
           videos.map(
             (video) => (
-              <VideoListItem video={video} />
+              <VideoListItem key={video.etag} video={video} />
             )
           )
         }
