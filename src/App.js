@@ -12,6 +12,7 @@ export default class App extends Component {
     super(props)
     this.state = {
       videos: [],
+      selectedVideo: null,
       term: '',
     }
   }
@@ -23,7 +24,8 @@ export default class App extends Component {
   fetchVideos() {
     YTSearch({key: API_KEY, term: this.state.term}, function(videos) {
       this.setState({
-        videos
+        videos: videos,
+        selectedVideo: videos[0],
       })
     }.bind(this))
   }
@@ -35,12 +37,25 @@ export default class App extends Component {
     this.fetchVideos()
   }
 
+  handleSelectedVideoChange(video) {
+    this.setState({
+      selectedVideo: video
+    })
+  }
+
   render() {
     return (
       <div className={styles.searchBarContainer} style={{padding: '10px'}}>
-        <SearchBar handleSearchTermChange={this.handleSearchTermChange.bind(this)} term={this.props.term}/>
-        <VideoDetail video={this.state.videos[0]} />
-        <VideoList videos={this.state.videos}/>
+        <SearchBar
+          handleSearchTermChange={this.handleSearchTermChange.bind(this)}
+          term={this.props.term}
+          />
+        <VideoDetail video={this.state.selectedVideo} />
+        <VideoList
+          videos={this.state.videos}
+          selectedVideo={this.state.selectedVideo}
+          onClickVideo={this.handleSelectedVideoChange.bind(this)}
+          />
       </div>
     );
   }
